@@ -49,12 +49,14 @@ No hay framework de tests configurado. Typecheck: `npx tsc --noEmit` (si falla p
 
 ## Estructura de la app
 
-Rutas (App Router): `/` biblioteca, `/juegos/[id]` detalle (404 propio en `not-found.tsx`), `/juegos/[id]/jugar` reproductor simulado, `/auth`, `/salon`. Layout global (`app/layout.tsx`) monta `SessionProvider` + `Nav` + `Footer`.
+Rutas (App Router): `/` home (landing), `/biblioteca` biblioteca, `/juegos/[id]` detalle (404 propio en `not-found.tsx`), `/juegos/[id]/jugar` reproductor simulado, `/auth`, `/salon`. Layout global (`app/layout.tsx`) monta `SessionProvider` + `Nav` + `Footer`.
 
 - `lib/games.ts`: tipos y `GAMES`/`CATS` (origen único de datos de juegos).
 - `lib/scores.ts`: ranking mock determinista (semilla por hash de `game.id`, #1 = `game.best`) fusionado con puntajes locales (`mergeScores`), `personalBest`, y store en localStorage (`av_user`, `av_scores`) con fallback en memoria, expuesto vía `useSyncExternalStore`.
-- `components/`: `session-provider` (contexto `useSession`), `nav`, `footer`, `library`, `game-card`, `leaderboard`, `game-player`, `auth-form`, `hall-of-fame`. Son Client Components solo los que usan estado/localStorage.
+- `components/`: `session-provider` (contexto `useSession`), `nav`, `footer`, `library`, `game-card`, `leaderboard`, `game-player`, `auth-form`, `hall-of-fame`, `reveal` (revelado por scroll de la Home), `mini-card`, `feature-icon`, `home-silhouettes`. Son Client Components solo los que usan estado/localStorage.
 - Sin backend: auth falsa (la contraseña no se persiste), puntaje del reproductor simulado.
+
+- Home (`app/page.tsx`): Server Component con copy y datos fijos (actividad/top son maqueta). Solo `Reveal` es cliente; marca `<html>` con `reveal-ready` tras hidratar para que `.reveal` no oculte contenido sin JS. Referencia visual: `references/home-about/` (`home.jsx`, `nav.jsx`; `about.jsx` queda para otro spec).
 
 ## `references/templates/` — prototipo de diseño (no es código de la app)
 

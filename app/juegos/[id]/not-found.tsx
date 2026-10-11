@@ -9,7 +9,7 @@ export default function GameNotFound() {
       <p style={{ color: "var(--ink-dim)", marginBottom: 28 }}>
         Ese juego no existe en el Vault. Elige otro desde la biblioteca.
       </p>
-      <Link href="/" className="btn lg">
+      <Link href="/biblioteca" className="btn lg">
         VOLVER AL VAULT
       </Link>
     </div>
