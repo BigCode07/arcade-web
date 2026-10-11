@@ -118,7 +118,7 @@ export function personalBest(
 
 const memory = new Map<string, string>();
 
-function readRaw(key: string): string | null {
+export function readRaw(key: string): string | null {
   try {
     const v = window.localStorage.getItem(key);
     if (v !== null) return v;
@@ -128,7 +128,7 @@ function readRaw(key: string): string | null {
   return memory.get(key) ?? null;
 }
 
-function writeRaw(key: string, value: string | null): void {
+export function writeRaw(key: string, value: string | null): void {
   if (value === null) memory.delete(key);
   else memory.set(key, value);
   try {
@@ -139,7 +139,7 @@ function writeRaw(key: string, value: string | null): void {
   }
 }
 
-function parseJson(raw: string | null): unknown {
+export function parseJson(raw: string | null): unknown {
   if (raw === null) return null;
   try {
     return JSON.parse(raw);
