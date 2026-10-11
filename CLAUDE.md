@@ -2,6 +2,9 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Skills
+Usa siempre /frontend-design para diseñar interaz de usuarios.
+
 ## Proyecto
 
 Arcade Vault: plataforma web para jugar online y competir por puntos. Repo en etapa inicial (scaffold de Create Next App sin tocar + prototipo de diseño en `templates/`). README declara flujo Spec Driven Design (`/spec`, `/spec-impl`) con skills de `Klerith/fernando-skills`.
