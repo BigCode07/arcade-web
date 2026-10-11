@@ -12,6 +12,7 @@ export function Nav() {
 
   const isHome = pathname === "/";
   const isLibrary = pathname === "/biblioteca" || pathname.startsWith("/juegos");
+  const isAbout = pathname === "/about";
   const close = () => setOpen(false);
 
   useEffect(() => {
@@ -41,6 +42,9 @@ export function Nav() {
           </Link>
           <Link href="/salon" className={pathname === "/salon" ? "active" : ""}>
             Salón de la Fama
+          </Link>
+          <Link href="/about" className={isAbout ? "active" : ""}>
+            Acerca de
           </Link>
         </div>
         <div className="spacer" />
@@ -89,6 +93,9 @@ export function Nav() {
           onClick={close}
         >
           Salón de la Fama
+        </Link>
+        <Link href="/about" className={isAbout ? "active" : ""} onClick={close}>
+          Acerca de
         </Link>
         <Link
           href="/auth"
