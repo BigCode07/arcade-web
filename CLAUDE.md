@@ -8,6 +8,21 @@ Usa siempre /frontend-design para diseñar interaz de usuarios.
 
 Por cada spec que se utilice con /spec-impl crea una rama tal como se llamo en la carpeta /specs y cuando termines de implementarlo genera un commit detallando lo que se realizo de manera prolija
 
+## Worktrees y specs en paralelo
+
+Cada spec se implementa en su propio worktree para trabajar varias a la vez sin pisarse. Los worktrees viven en `/worktrees/` dentro del repo (ignorado en `.gitignore`, `tsconfig.json` y `eslint.config.mjs`).
+
+1. Crear worktree + rama desde `main`, con el nombre del archivo en `/specs`:
+   `git worktree add worktrees/<nombre-spec> -b <nombre-spec> main`
+2. En cada worktree: `npm install` propio y puerto distinto para dev (`npm run dev -- -p 300N`).
+3. Implementar y commitear dentro del worktree (un commit prolijo por spec, regla de arriba).
+4. Paralelismo: lanzar un subagente por spec con `isolation: "worktree"` (o apuntando al worktree creado). Revisar el resultado de cada uno antes de integrar.
+5. Con todas las specs listas, crear la rama `integration/specs` desde `main` y mergear cada rama de spec con `git merge --no-ff <nombre-spec>` (nunca `rebase`).
+6. Resolver conflictos en `integration/specs`. Puntos calientes probables: `lib/games.ts`, `app/layout.tsx`, `components/nav.tsx`, `app/globals.css`, `CLAUDE.md`. Resolver los triviales; si el conflicto cambia comportamiento, mostrar ambas versiones y confirmar con el usuario antes de resolver.
+7. Validar en integración: `npx eslint app components lib`, `npx tsc --noEmit`, `npm run build`.
+8. Push y PR a `main` solo con confirmación explícita.
+9. Limpiar: `git worktree remove worktrees/<nombre-spec>` y `git worktree prune`.
+
 ## Proyecto
 
 Arcade Vault: plataforma web para jugar online y competir por puntos. MVP de pantallas implementado según `specs/01-mvp-pantallas-arcade-vault.md` (5 pantallas, juego simulado, sin backend); prototipo de diseño en `references/templates/`. README declara flujo Spec Driven Design (`/spec`, `/spec-impl`) con skills de `Klerith/fernando-skills`.
