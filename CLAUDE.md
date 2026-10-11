@@ -6,9 +6,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Usa siempre /frontend-design para diseñar interaz de usuarios.
 
+Por cada spec que se utilice con /spec-impl crea una rama tal como se llamo en la carpeta /specs y cuando termines de implementarlo genera un commit detallando lo que se realizo de manera prolija
+
 ## Proyecto
 
-Arcade Vault: plataforma web para jugar online y competir por puntos. Repo en etapa inicial (scaffold de Create Next App sin tocar + prototipo de diseño en `templates/`). README declara flujo Spec Driven Design (`/spec`, `/spec-impl`) con skills de `Klerith/fernando-skills`.
+Arcade Vault: plataforma web para jugar online y competir por puntos. MVP de pantallas implementado según `specs/01-mvp-pantallas-arcade-vault.md` (5 pantallas, juego simulado, sin backend); prototipo de diseño en `references/templates/`. README declara flujo Spec Driven Design (`/spec`, `/spec-impl`) con skills de `Klerith/fernando-skills`.
 
 ## Comandos
 
