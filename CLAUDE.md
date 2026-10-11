@@ -19,7 +19,7 @@ npm run start   # next start
 npm run lint    # eslint (flat config, next core-web-vitals + typescript)
 ```
 
-No hay framework de tests configurado. Typecheck: `npx tsc --noEmit`.
+No hay framework de tests configurado. Typecheck: `npx tsc --noEmit` (si falla por `PageProps<...>`, correr `npx next typegen` antes). `npm run lint` también recorre `references/templates/` y reporta errores propios del prototipo; para validar la app: `npx eslint app components lib`.
 
 ## Stack y particularidades
 
@@ -28,9 +28,18 @@ No hay framework de tests configurado. Typecheck: `npx tsc --noEmit`.
 - `next.config.ts` activa `cacheComponents`, `partialPrefetching` y `experimental.agentFeedback`: modelo de caché/prefetch distinto al Next clásico.
 - Tailwind se procesa vía regla turbopack (`@tailwindcss/turbopack` sobre `*.css`) en `next.config.ts`, no vía PostCSS. Tokens de tema en `app/globals.css` (`@theme inline`).
 - Layout tipado con el helper global `LayoutProps<"/">` (sin import).
-- `app/layout.tsx` y `app/page.tsx` siguen siendo el boilerplate de Create Next App (metadata "Create Next App", `lang="en"`).
+- Rutas dinámicas: `params` es `Promise`; tipar con `PageProps<"/juegos/[id]">`.
 
-## `templates/` — prototipo de diseño (no es código de la app)
+## Estructura de la app
+
+Rutas (App Router): `/` biblioteca, `/juegos/[id]` detalle (404 propio en `not-found.tsx`), `/juegos/[id]/jugar` reproductor simulado, `/auth`, `/salon`. Layout global (`app/layout.tsx`) monta `SessionProvider` + `Nav` + `Footer`.
+
+- `lib/games.ts`: tipos y `GAMES`/`CATS` (origen único de datos de juegos).
+- `lib/scores.ts`: ranking mock determinista (semilla por hash de `game.id`, #1 = `game.best`) fusionado con puntajes locales (`mergeScores`), `personalBest`, y store en localStorage (`av_user`, `av_scores`) con fallback en memoria, expuesto vía `useSyncExternalStore`.
+- `components/`: `session-provider` (contexto `useSession`), `nav`, `footer`, `library`, `game-card`, `leaderboard`, `game-player`, `auth-form`, `hall-of-fame`. Son Client Components solo los que usan estado/localStorage.
+- Sin backend: auth falsa (la contraseña no se persiste), puntaje del reproductor simulado.
+
+## `references/templates/` — prototipo de diseño (no es código de la app)
 
 Maqueta estática en HTML + React 18 UMD + Babel standalone (scripts globales, sin bundler ni imports). Sirve de referencia visual/UX para portar a `app/`:
 
@@ -38,7 +47,3 @@ Maqueta estática en HTML + React 18 UMD + Babel standalone (scripts globales, s
 - `data.jsx`: datos mock (`GAMES`, etc.). `styles.css`: estilos retro/neón de todo el prototipo.
 - `app.jsx`: router casero por `location.hash` (rutas `biblioteca`, `detalle`, `player`, `auth`, `salon`); sesión y puntajes simulados en `localStorage` (`av_user`, `av_scores`).
 - UI en español.
-
-## Estado de git
-
-`templates/` aún sin trackear y `README.md` con cambios sin commitear al momento de generar este archivo.
