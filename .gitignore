@@ -42,3 +42,6 @@ next-env.d.ts
 
 # git worktrees (specs en paralelo)
 /worktrees/
+
+# playwright mcp (logs, snapshots, capturas)
+/.playwright-mcp/
